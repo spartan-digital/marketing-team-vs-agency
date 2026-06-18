@@ -74,14 +74,14 @@ export function ComparePanel({ state }: { state: State }) {
       </div>
 
       <div className="grid grid-cols-2 border-t border-border">
-        <div className="py-[9px] px-4 text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.5px] bg-secondary">Agency wins on</div>
-        <div className="py-[9px] px-4 text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.5px] bg-secondary border-l border-border">In-house wins on</div>
-        <div className="py-[9px] px-4 text-[12px] border-t border-border">Speed to launch & breadth of skills day one</div>
-        <div className="py-[9px] px-4 text-[12px] border-t border-border border-l border-border">Dedicated time & deep product/brand knowledge</div>
-        <div className="py-[9px] px-4 text-[12px] border-t border-border">Lower cost at small scale; easy to scale up/down</div>
-        <div className="py-[9px] px-4 text-[12px] border-t border-border border-l border-border">Control, responsiveness & cultural fit</div>
-        <div className="py-[9px] px-4 text-[12px] border-t border-border">Access to specialists you can't afford full-time</div>
-        <div className="py-[9px] px-4 text-[12px] border-t border-border border-l border-border">Knowledge & assets that stay when contracts end</div>
+        <div className="py-[9px] px-4 text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.5px] bg-secondary">In-house wins on</div>
+        <div className="py-[9px] px-4 text-[11px] font-semibold text-muted-foreground uppercase tracking-[0.5px] bg-secondary border-l border-border">Agency wins on</div>
+        <div className="py-[9px] px-4 text-[12px] border-t border-border">Dedicated time & deep product/brand knowledge</div>
+        <div className="py-[9px] px-4 text-[12px] border-t border-border border-l border-border">Speed to launch & breadth of skills day one</div>
+        <div className="py-[9px] px-4 text-[12px] border-t border-border">Control, responsiveness & cultural fit</div>
+        <div className="py-[9px] px-4 text-[12px] border-t border-border border-l border-border">Lower cost at small scale; easy to scale up/down</div>
+        <div className="py-[9px] px-4 text-[12px] border-t border-border">Knowledge & assets that stay when contracts end</div>
+        <div className="py-[9px] px-4 text-[12px] border-t border-border border-l border-border">Access to specialists you can't afford full-time</div>
       </div>
     </div>
   );
