@@ -4,7 +4,7 @@ import { BudgetBar } from '@/components/BudgetBar';
 import { ComparePanel } from '@/components/ComparePanel';
 import { RoleCard } from '@/components/RoleCard';
 import { 
-  ROLES, PCT_TEXT, mktBudget, peopleBudget, teamCost, loadRecommended, State, formatCurrency
+  ROLES, PCT, PCT_TEXT, mktBudget, peopleBudget, teamCost, loadRecommended, State, formatCurrency
 } from '@/lib/team-builder-logic';
 
 export default function TeamBuilder() {
@@ -90,6 +90,27 @@ export default function TeamBuilder() {
               onChange={v => setState(s => ({ ...s, stance: v }))}
               testIdPrefix="btn-stance"
             />
+            <div className="grid grid-cols-3 gap-[4px] mt-[6px]">
+              {(['conservative','growth','aggressive'] as const).map(s => {
+                const pct = PCT[state.industry][s];
+                const budget = state.rev * pct;
+                const active = state.stance === s;
+                return (
+                  <button
+                    key={s}
+                    onClick={() => setState(st => ({ ...st, stance: s }))}
+                    className={`rounded-[6px] py-[5px] px-[6px] text-left cursor-pointer border transition-colors ${active ? 'border-accent bg-accent/10' : 'border-border bg-secondary hover:border-muted-foreground'}`}
+                  >
+                    <div className={`text-[10px] uppercase tracking-[0.4px] mb-[1px] ${active ? 'text-accent' : 'text-muted-foreground'}`}>
+                      {(pct * 100).toFixed(1)}%
+                    </div>
+                    <div className={`text-[12px] font-semibold leading-none ${active ? 'text-foreground' : 'text-muted-foreground'}`}>
+                      {formatCurrency(budget)}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="m-0">
