@@ -2,28 +2,28 @@ export const ROLES = [
   {id:'lead', group:'Leadership & Strategy', role:'Marketing Leader', desc:'Sets strategy, owns the number, manages the team & budget. Can be an in-house hire, fractional executive, or agency-embedded strategist.',
     costs:{fte:300000, fractional:132000, agency:72000}, recFrom:0, recType:'agency', priority:2},
   {id:'mgr', group:'Leadership & Strategy', role:'Marketing Manager', desc:'Runs day-to-day execution, campaigns, and vendors.',
-    costs:{fte:115000, fractional:84000, agency:null}, recFrom:2000000, recType:'fte', priority:5},
+    costs:{fte:115000, fractional:84000, agency:48000}, recFrom:2000000, recType:'fte', priority:5},
 
   {id:'demand', group:'Demand & Digital', role:'Digital / Demand Gen', desc:'Paid media, SEO, lead gen, landing pages, analytics.',
     costs:{fte:95000, fractional:60000, agency:42000}, recFrom:1000000, recType:'agency', priority:1},
   {id:'email', group:'Demand & Digital', role:'Email / CRM', desc:'Nurture sequences, automation, list & pipeline hygiene.',
-    costs:{fte:90000, fractional:null, agency:30000}, recFrom:5000000, recType:'agency', priority:6},
+    costs:{fte:90000, fractional:42000, agency:30000}, recFrom:5000000, recType:'agency', priority:6},
   {id:'web', group:'Demand & Digital', role:'Web / Developer', desc:'Website, technical SEO, tracking, CRO.',
-    costs:{fte:125000, fractional:null, agency:36000}, recFrom:1500000, recType:'agency', priority:3},
+    costs:{fte:125000, fractional:60000, agency:36000}, recFrom:1500000, recType:'agency', priority:3},
 
   {id:'content', group:'Creative & Content', role:'Content / Copywriter', desc:'Case studies, blogs, sales collateral, email copy.',
-    costs:{fte:85000, fractional:null, agency:30000}, recFrom:1000000, recType:'agency', priority:3},
+    costs:{fte:85000, fractional:36000, agency:30000}, recFrom:1000000, recType:'agency', priority:3},
   {id:'design', group:'Creative & Content', role:'Graphic / Brand Designer', desc:'Brand, sales decks, ads, print, web assets.',
-    costs:{fte:90000, fractional:null, agency:30000}, recFrom:2000000, recType:'agency', priority:4},
+    costs:{fte:90000, fractional:40000, agency:30000}, recFrom:2000000, recType:'agency', priority:4},
   {id:'video', group:'Creative & Content', role:'Video / Photo', desc:'Product, facility, and project content for web & social.',
-    costs:{fte:85000, fractional:null, agency:24000}, recFrom:3000000, recType:'agency', priority:7},
+    costs:{fte:85000, fractional:30000, agency:24000}, recFrom:3000000, recType:'agency', priority:7},
   {id:'social', group:'Creative & Content', role:'Social Media', desc:'Organic social, community, reviews & reputation.',
-    costs:{fte:74000, fractional:null, agency:24000}, recFrom:1500000, recType:'agency', priority:5},
+    costs:{fte:74000, fractional:30000, agency:24000}, recFrom:1500000, recType:'agency', priority:5},
 
   {id:'coord', group:'Execution & Ops', role:'Marketing Coordinator', desc:'Scheduling, trade shows/events, CRM admin, reporting.',
-    costs:{fte:80000, fractional:null, agency:null}, recFrom:3000000, recType:'fte', priority:6},
+    costs:{fte:80000, fractional:36000, agency:24000}, recFrom:3000000, recType:'fte', priority:6},
   {id:'ops', group:'Execution & Ops', role:'Marketing Ops / Analyst', desc:'Tooling, dashboards, attribution, data hygiene.',
-    costs:{fte:100000, fractional:null, agency:null}, recFrom:10000000, recType:'fte', priority:8},
+    costs:{fte:100000, fractional:60000, agency:36000}, recFrom:10000000, recType:'fte', priority:8},
 ];
 
 export const TYPE_LABEL: Record<string, string> = {fte:'Full-time', fractional:'Fractional', agency:'Agency'};
