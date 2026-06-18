@@ -1,30 +1,33 @@
 export const ROLES = [
-  {id:'lead', group:'Leadership & Strategy', role:'Marketing Leader', desc:'Sets strategy, owns the number, manages the team & budget.',
-    costs:{fte:300000, fractional:132000, agency:null, freelance:null}, recFrom:0, recType:'fractional', priority:2},
+  {id:'lead', group:'Leadership & Strategy', role:'Marketing Leader', desc:'Sets strategy, owns the number, manages the team & budget. Can be an in-house hire, fractional executive, or agency-embedded strategist.',
+    costs:{fte:300000, fractional:132000, agency:72000}, recFrom:0, recType:'agency', priority:2},
   {id:'mgr', group:'Leadership & Strategy', role:'Marketing Manager', desc:'Runs day-to-day execution, campaigns, and vendors.',
-    costs:{fte:115000, fractional:84000, agency:null, freelance:60000}, recFrom:2000000, recType:'fte', priority:5},
+    costs:{fte:115000, fractional:84000, agency:null}, recFrom:2000000, recType:'fte', priority:5},
+
   {id:'demand', group:'Demand & Digital', role:'Digital / Demand Gen', desc:'Paid media, SEO, lead gen, landing pages, analytics.',
-    costs:{fte:95000, fractional:60000, agency:42000, freelance:48000}, recFrom:1000000, recType:'agency', priority:1},
+    costs:{fte:95000, fractional:60000, agency:42000}, recFrom:1000000, recType:'agency', priority:1},
   {id:'email', group:'Demand & Digital', role:'Email / CRM', desc:'Nurture sequences, automation, list & pipeline hygiene.',
-    costs:{fte:90000, fractional:null, agency:30000, freelance:36000}, recFrom:5000000, recType:'freelance', priority:6},
+    costs:{fte:90000, fractional:null, agency:30000}, recFrom:5000000, recType:'agency', priority:6},
   {id:'web', group:'Demand & Digital', role:'Web / Developer', desc:'Website, technical SEO, tracking, CRO.',
-    costs:{fte:125000, fractional:null, agency:36000, freelance:30000}, recFrom:1500000, recType:'freelance', priority:3},
+    costs:{fte:125000, fractional:null, agency:36000}, recFrom:1500000, recType:'agency', priority:3},
+
   {id:'content', group:'Creative & Content', role:'Content / Copywriter', desc:'Case studies, blogs, sales collateral, email copy.',
-    costs:{fte:85000, fractional:null, agency:30000, freelance:36000}, recFrom:1000000, recType:'freelance', priority:3},
+    costs:{fte:85000, fractional:null, agency:30000}, recFrom:1000000, recType:'agency', priority:3},
   {id:'design', group:'Creative & Content', role:'Graphic / Brand Designer', desc:'Brand, sales decks, ads, print, web assets.',
-    costs:{fte:90000, fractional:null, agency:30000, freelance:30000}, recFrom:2000000, recType:'freelance', priority:4},
+    costs:{fte:90000, fractional:null, agency:30000}, recFrom:2000000, recType:'agency', priority:4},
   {id:'video', group:'Creative & Content', role:'Video / Photo', desc:'Product, facility, and project content for web & social.',
-    costs:{fte:85000, fractional:null, agency:24000, freelance:24000}, recFrom:3000000, recType:'freelance', priority:7},
+    costs:{fte:85000, fractional:null, agency:24000}, recFrom:3000000, recType:'agency', priority:7},
   {id:'social', group:'Creative & Content', role:'Social Media', desc:'Organic social, community, reviews & reputation.',
-    costs:{fte:74000, fractional:null, agency:24000, freelance:24000}, recFrom:1500000, recType:'freelance', priority:5},
+    costs:{fte:74000, fractional:null, agency:24000}, recFrom:1500000, recType:'agency', priority:5},
+
   {id:'coord', group:'Execution & Ops', role:'Marketing Coordinator', desc:'Scheduling, trade shows/events, CRM admin, reporting.',
-    costs:{fte:80000, fractional:null, agency:null, freelance:30000}, recFrom:3000000, recType:'fte', priority:6},
+    costs:{fte:80000, fractional:null, agency:null}, recFrom:3000000, recType:'fte', priority:6},
   {id:'ops', group:'Execution & Ops', role:'Marketing Ops / Analyst', desc:'Tooling, dashboards, attribution, data hygiene.',
-    costs:{fte:100000, fractional:null, agency:null, freelance:36000}, recFrom:10000000, recType:'fte', priority:8},
+    costs:{fte:100000, fractional:null, agency:null}, recFrom:10000000, recType:'fte', priority:8},
 ];
 
-export const TYPE_LABEL: Record<string, string> = {fte:'Full-time',fractional:'Fractional',agency:'Agency',freelance:'Freelance'};
-export const ORDER = ['fte','fractional','agency','freelance'];
+export const TYPE_LABEL: Record<string, string> = {fte:'Full-time', fractional:'Fractional', agency:'Agency'};
+export const ORDER = ['fte','fractional','agency'];
 
 export const PCT: Record<string, Record<string, number>> = {
   manufacturing:{conservative:0.04, growth:0.07, aggressive:0.095},
@@ -48,54 +51,54 @@ export type State = {
   picks: Record<string, string>;
 };
 
-export function mktBudget(state: State) { 
-  return state.rev * PCT[state.industry][state.stance]; 
+export function mktBudget(state: State) {
+  return state.rev * PCT[state.industry][state.stance];
 }
 
-export function peopleBudget(state: State) { 
-  return mktBudget(state) * (state.split / 100); 
+export function peopleBudget(state: State) {
+  return mktBudget(state) * (state.split / 100);
 }
 
 export function teamCost(state: State) {
   let t = 0;
-  ROLES.forEach(r => { 
-    const p = state.picks[r.id]; 
-    if (p !== 'none' && (r.costs as any)[p] != null) t += (r.costs as any)[p]; 
+  ROLES.forEach(r => {
+    const p = state.picks[r.id];
+    if (p !== 'none' && (r.costs as any)[p] != null) t += (r.costs as any)[p];
   });
   return t;
 }
 
-export function activeRoles(state: State) { 
-  return ROLES.filter(r => state.picks[r.id] !== 'none'); 
+export function activeRoles(state: State) {
+  return ROLES.filter(r => state.picks[r.id] !== 'none');
 }
 
 export function agencyEstimate(state: State) {
   const active = activeRoles(state);
   if (!active.length) return 0;
-  let mo = 0; 
+  let mo = 0;
   active.forEach(r => { mo += AGENCY_MODULE[r.id] || 0; });
   mo = Math.max(mo * AGENCY_DISCOUNT, AGENCY_MIN_MO);
   return mo * 12;
 }
 
-export function agencyHours(state: State) { 
-  return Math.min(40 + activeRoles(state).length * 12, 160); 
+export function agencyHours(state: State) {
+  return Math.min(40 + activeRoles(state).length * 12, 160);
 }
 
 export function teamHours(state: State) {
   let h = 0;
-  activeRoles(state).forEach(r => { 
+  activeRoles(state).forEach(r => {
     const p = state.picks[r.id];
-    h += p === 'fte' ? 160 : p === 'fractional' ? 60 : p === 'agency' ? 40 : 50; 
+    h += p === 'fte' ? 160 : p === 'fractional' ? 60 : p === 'agency' ? 40 : 0;
   });
   return h;
 }
 
 function teamCostFromPicks(picks: Record<string, string>) {
   let t = 0;
-  ROLES.forEach(r => { 
-    const p = picks[r.id]; 
-    if (p !== 'none' && (r.costs as any)[p] != null) t += (r.costs as any)[p]; 
+  ROLES.forEach(r => {
+    const p = picks[r.id];
+    if (p !== 'none' && (r.costs as any)[p] != null) t += (r.costs as any)[p];
   });
   return t;
 }
@@ -103,13 +106,13 @@ function teamCostFromPicks(picks: Record<string, string>) {
 export function loadRecommended(state: State) {
   const picks: Record<string, string> = {};
   ROLES.forEach(r => { picks[r.id] = (state.rev >= r.recFrom) ? r.recType : 'none'; });
-  
+
   let guard = 0;
   while (teamCostFromPicks(picks) > peopleBudget(state) && guard < 20) {
     let drop: string | null = null, worstPri = -1;
-    ROLES.forEach(r => { 
-      const p = picks[r.id]; 
-      if (p !== 'none' && r.priority > worstPri) { worstPri = r.priority; drop = r.id; } 
+    ROLES.forEach(r => {
+      const p = picks[r.id];
+      if (p !== 'none' && r.priority > worstPri) { worstPri = r.priority; drop = r.id; }
     });
     if (drop) picks[drop] = 'none'; guard++;
   }

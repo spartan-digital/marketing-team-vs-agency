@@ -96,16 +96,23 @@ export default function TeamBuilder() {
             <label className="block text-[12px] uppercase tracking-[0.6px] text-muted-foreground mb-[8px]">
               People vs. programs split — <span>{state.split}</span>% people
             </label>
-            <input 
-              type="range" 
-              className="w-full accent-accent mt-[38px]" 
-              min="30" 
-              max="75" 
-              step="5" 
-              value={state.split} 
+            <input
+              type="range"
+              className="w-full accent-accent"
+              min="30"
+              max="75"
+              step="5"
+              value={state.split}
               onChange={e => setState(s => ({ ...s, split: Number(e.target.value) }))}
               data-testid="input-split"
             />
+            <div className="text-[11px] text-muted-foreground mt-[6px] leading-[1.5]">
+              {state.split === 50
+                ? 'The 50/50 starting point is an industry baseline: half your budget funds the people who execute, half funds the channels and tools they run.'
+                : state.split > 50
+                ? `${state.split}% toward people — leaning in-house. Good when you're building institutional capability and plan to grow the team.`
+                : `${state.split}% toward people — leaning programs. Works well when you're outsourcing execution and investing heavily in paid channels or tools.`}
+            </div>
           </div>
         </div>
         
@@ -152,7 +159,6 @@ export default function TeamBuilder() {
           <span className="flex items-center"><i className="inline-block w-[11px] h-[11px] rounded-[3px] mr-[5px] align-[-1px]" style={{ background: 'var(--color-fte)' }}></i>Full-time hire</span>
           <span className="flex items-center"><i className="inline-block w-[11px] h-[11px] rounded-[3px] mr-[5px] align-[-1px]" style={{ background: 'var(--color-fractional)' }}></i>Fractional</span>
           <span className="flex items-center"><i className="inline-block w-[11px] h-[11px] rounded-[3px] mr-[5px] align-[-1px]" style={{ background: 'var(--color-agency)' }}></i>Agency</span>
-          <span className="flex items-center"><i className="inline-block w-[11px] h-[11px] rounded-[3px] mr-[5px] align-[-1px]" style={{ background: 'var(--color-freelance)' }}></i>Freelance</span>
         </div>
 
         <ComparePanel state={state} />

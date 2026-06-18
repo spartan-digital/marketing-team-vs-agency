@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Rubik:wght@300;400;500&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -134,8 +135,8 @@
   --popover-foreground: 220 33% 92%;
   --popover-border: 221 16% 20%;
   
-  --primary: 222 100% 68%;
-  --primary-foreground: 0 0% 100%;
+  --primary: 57 94% 54%;
+  --primary-foreground: 220 17% 7%;
   
   --secondary: 223 19% 14%;
   --secondary-foreground: 220 33% 92%;
@@ -143,22 +144,22 @@
   --muted: 223 19% 14%;
   --muted-foreground: 218 16% 65%;
   
-  --accent: 222 100% 68%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 57 94% 54%;
+  --accent-foreground: 220 17% 7%;
   
   --destructive: 350 100% 71%;
   --destructive-foreground: 0 0% 100%;
   
   --input: 221 16% 20%;
-  --ring: 222 100% 68%;
+  --ring: 57 94% 54%;
   
-  --chart-1: 222 100% 68%;
+  --chart-1: 57 94% 54%;
   --chart-2: 153 62% 53%;
   --chart-3: 34 100% 66%;
   --chart-4: 350 100% 71%;
   --chart-5: 271 100% 73%;
 
-  --app-font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --app-font-sans: 'Rubik', sans-serif;
   --app-font-serif: Georgia, serif;
   --app-font-mono: Menlo, monospace;
   --radius: .5rem; 
@@ -166,7 +167,6 @@
   --color-fte: #5b8cff;
   --color-fractional: #a974ff;
   --color-agency: #ff8f5b;
-  --color-freelance: #3ecf8e;
   --color-good: #3ecf8e;
   --color-warn: #ffb454;
   --color-bad: #ff6b6b;
@@ -178,6 +178,10 @@
   * {
     @apply border-border;
     box-sizing: border-box;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
   }
 
   body {

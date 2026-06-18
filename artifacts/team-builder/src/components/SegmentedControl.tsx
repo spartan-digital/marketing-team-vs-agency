@@ -20,7 +20,7 @@ export function SegmentedControl({ options, value, onChange, id, className, test
           className={cn(
             "flex-1 min-w-0 py-2 px-1.5 rounded-lg border text-xs transition-colors duration-150 cursor-pointer",
             value === opt.value
-              ? "bg-accent border-accent text-white"
+              ? "bg-accent border-accent text-accent-foreground font-medium"
               : "bg-secondary border-border text-muted-foreground hover:text-foreground"
           )}
           onClick={() => onChange(opt.value)}
