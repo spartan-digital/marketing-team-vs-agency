@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing Team Builder</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1d212b; --line:#2a2f3a;
+    --text:#e7eaf0; --muted:#9aa3b2; --accent:#5b8cff; --good:#3ecf8e;
+    --warn:#ffb454; --bad:#ff6b6b;
+    --fte:#5b8cff; --fractional:#a974ff; --agency:#ff8f5b; --freelance:#3ecf8e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.45;font-size:14px}
+  header{padding:22px 28px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#161a22,#0f1115)}
+  h1{margin:0;font-size:20px;letter-spacing:.2px}
+  .sub{color:var(--muted);font-size:13px;margin-top:4px}
+  .topbar{padding:20px 28px;background:var(--panel);border-bottom:1px solid var(--line)}
+  .inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px 28px;margin-bottom:16px}
+  .stats{display:flex;flex-wrap:wrap;gap:12px;align-items:stretch}
+  .main{padding:22px 28px}
+  .field{margin:0}
+  label.lbl{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:8px}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .revval{font-size:24px;font-weight:600;margin:2px 0 6px}
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg button{flex:1;min-width:0;padding:8px 6px;background:var(--panel2);border:1px solid var(--line);
+    color:var(--muted);border-radius:8px;cursor:pointer;font-size:12px;transition:.15s}
+  .seg button.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .seg button:hover{color:var(--text)}
+  .stat{flex:1 1 180px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .stat.wide{flex:2 1 300px}
+  .actions{flex:1 1 170px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+  .stat .k{font-size:12px;color:var(--muted)}
+  .stat .v{font-size:20px;font-weight:600;margin-top:2px}
+  .stat .v small{font-size:12px;color:var(--muted);font-weight:400}
+  .budgetbar{height:14px;border-radius:8px;background:var(--panel2);overflow:hidden;margin-top:8px;border:1px solid var(--line);position:relative}
+  .budgetbar i{display:block;height:100%;background:var(--good);transition:width .25s,background .25s}
+  .rowtot{display:flex;justify-content:space-between;font-size:13px;margin-top:8px}
+  .pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+
+  .groups{display:flex;flex-direction:column;gap:22px}
+  .group h2{font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin:0 0 12px;
+    border-bottom:1px solid var(--line);padding-bottom:8px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;transition:.15s;opacity:.55}
+  .card.on{opacity:1;border-color:var(--sel,var(--accent));box-shadow:0 0 0 1px var(--sel,var(--accent)) inset}
+  .card .role{font-weight:600;font-size:15px}
+  .card .desc{color:var(--muted);font-size:12px;margin:4px 0 10px;min-height:32px}
+  .opts{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+  .opts button{padding:5px 9px;border-radius:7px;border:1px solid var(--line);background:var(--panel2);
+    color:var(--muted);font-size:11px;cursor:pointer}
+  .opts button.sel{color:#fff;border-color:transparent}
+  .opts button.sel[data-t=fte]{background:var(--fte)} .opts button.sel[data-t=fractional]{background:var(--fractional)}
+  .opts button.sel[data-t=agency]{background:var(--agency)} .opts button.sel[data-t=freelance]{background:var(--freelance)}
+  .opts button.sel[data-t=none]{background:#3a3f4b}
+  .cost{font-size:13px}
+  .cost b{font-size:16px}
+  .cost .yr{color:var(--muted);font-size:12px}
+  .rec{font-size:11px;color:var(--warn);margin-top:6px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin:0 0 18px;font-size:12px;color:var(--muted)}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  .note{font-size:11px;color:var(--muted);margin-top:14px;line-height:1.5}
+  .compare{margin-bottom:24px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+  .compare .chead{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .compare .chead b{font-size:14px} .compare .chead span{font-size:12px;color:var(--muted)}
+  .vs{display:grid;grid-template-columns:1fr 56px 1fr}
+  .vs .col{padding:16px}
+  .vs .col.build{background:linear-gradient(180deg,rgba(91,140,255,.08),transparent)}
+  .vs .col.buy{background:linear-gradient(180deg,rgba(255,143,91,.08),transparent)}
+  .vs .col h3{margin:0 0 2px;font-size:13px} .vs .col .who{font-size:11px;color:var(--muted);margin-bottom:10px}
+  .vs .big{font-size:26px;font-weight:700} .vs .big small{font-size:12px;color:var(--muted);font-weight:400}
+  .vs .mid{display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);font-weight:600}
+  .metric{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-top:1px solid var(--line)}
+  .metric span:last-child{font-weight:600}
+  .verdict{padding:12px 16px;border-top:1px solid var(--line);font-size:13px;background:var(--panel2)}
+  .verdict b{color:var(--text)}
+  .trade{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+  .trade div{padding:9px 16px;font-size:12px;border-top:1px solid var(--line)}
+  .trade .h{font-weight:600;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;background:var(--panel2);border-top:none}
+  @media(max-width:680px){.vs{grid-template-columns:1fr}.vs .mid{padding:6px}}
+  .btnsm{background:var(--panel2);border:1px solid var(--line);color:var(--muted);border-radius:7px;padding:6px 10px;cursor:pointer;font-size:12px}
+  .btnsm:hover{color:var(--text)}
+  @media(max-width:560px){.stat.wide,.actions{flex-basis:100%}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Marketing Team Builder</h1>
+  <div class="sub">Size a marketing team against a revenue-based budget — built for manufacturing & local service businesses.</div>
+</header>
+
+<div class="topbar">
+  <div class="inputs">
+    <div class="field">
+      <label class="lbl">Annual revenue</label>
+      <div class="revval" id="revLabel">$2,000,000</div>
+      <input type="range" id="rev" min="250000" max="50000000" step="250000" value="2000000">
+    </div>
+
+    <div class="field">
+      <label class="lbl">Business type</label>
+      <div class="seg" id="industry">
+        <button data-v="manufacturing" class="active">Manufacturing</button>
+        <button data-v="service">Local service</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Growth stance</label>
+      <div class="seg" id="stance">
+        <button data-v="conservative">Conservative</button>
+        <button data-v="growth" class="active">Growth</button>
+        <button data-v="aggressive">Aggressive</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="lbl">People vs. programs split — <span id="peoplePctLbl">50</span>% people</label>
+      <input type="range" id="split" min="30" max="75" step="5" value="50">
+    </div>
+  </div>
+
+  <div class="note" id="pctNote" style="margin:0 0 14px"></div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Total marketing budget</div><div class="v" id="mktBudget">—</div></div>
+    <div class="stat"><div class="k">People budget</div><div class="v" id="peopleBudget">—</div></div>
+    <div class="stat wide">
+      <div class="k">Team cost / People budget</div>
+      <div class="v" id="teamCost">$0 <small id="teamCostPct"></small></div>
+      <div class="budgetbar"><i id="bar" style="width:0%"></i></div>
+      <div class="rowtot"><span class="pill" id="statusPill">Under budget</span><span id="remaining"></span></div>
+    </div>
+    <div class="actions">
+      <button class="btnsm" id="recBtn">↺ Load recommended team</button>
+      <button class="btnsm" id="clearBtn">Clear all roles</button>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+    <div class="legend">
+      <span><i style="background:var(--fte)"></i>Full-time hire</span>
+      <span><i style="background:var(--fractional)"></i>Fractional</span>
+      <span><i style="background:var(--agency)"></i>Agency</span>
+      <span><i style="background:var(--freelance)"></i>Freelance</span>
+    </div>
+    <div class="compare" id="compare"></div>
+    <div class="groups" id="groups"></div>
+    <div class="note">
+      Cost figures are 2026 U.S. benchmarks shown as fully-considered annual cost (FTE salaries are loaded ~1.35× base for taxes/benefits). They are editable starting points — real rates vary by region, seniority, and scope. Sources listed in the chat.
+    </div>
+  </main>
+
+<script>
+// ---- Benchmark data (annual cost to business, USD, 2026) ----
+// fte = loaded salary; others = annualized retainer/contract. null = option not typical.
+// priority: 1 = hire/keep first, higher numbers get trimmed first when over budget
+const ROLES = [
+  {id:'lead', group:'Leadership & Strategy', role:'Marketing Leader', desc:'Sets strategy, owns the number, manages the team & budget.',
+    costs:{fte:300000, fractional:132000, agency:null, freelance:null}, recFrom:0, recType:'fractional', priority:2},
+  {id:'mgr', group:'Leadership & Strategy', role:'Marketing Manager', desc:'Runs day-to-day execution, campaigns, and vendors.',
+    costs:{fte:115000, fractional:84000, agency:null, freelance:60000}, recFrom:2000000, recType:'fte', priority:5},
+
+  {id:'demand', group:'Demand & Digital', role:'Digital / Demand Gen', desc:'Paid media, SEO, lead gen, landing pages, analytics.',
+    costs:{fte:95000, fractional:60000, agency:42000, freelance:48000}, recFrom:1000000, recType:'agency', priority:1},
+  {id:'email', group:'Demand & Digital', role:'Email / CRM', desc:'Nurture sequences, automation, list & pipeline hygiene.',
+    costs:{fte:90000, fractional:null, agency:30000, freelance:36000}, recFrom:5000000, recType:'freelance', priority:6},
+  {id:'web', group:'Demand & Digital', role:'Web / Developer', desc:'Website, technical SEO, tracking, CRO.',
+    costs:{fte:125000, fractional:null, agency:36000, freelance:30000}, recFrom:1500000, recType:'freelance', priority:3},
+
+  {id:'content', group:'Creative & Content', role:'Content / Copywriter', desc:'Case studies, blogs, sales collateral, email copy.',
+    costs:{fte:85000, fractional:null, agency:30000, freelance:36000}, recFrom:1000000, recType:'freelance', priority:3},
+  {id:'design', group:'Creative & Content', role:'Graphic / Brand Designer', desc:'Brand, sales decks, ads, print, web assets.',
+    costs:{fte:90000, fractional:null, agency:30000, freelance:30000}, recFrom:2000000, recType:'freelance', priority:4},
+  {id:'video', group:'Creative & Content', role:'Video / Photo', desc:'Product, facility, and project content for web & social.',
+    costs:{fte:85000, fractional:null, agency:24000, freelance:24000}, recFrom:3000000, recType:'freelance', priority:7},
+  {id:'social', group:'Creative & Content', role:'Social Media', desc:'Organic social, community, reviews & reputation.',
+    costs:{fte:74000, fractional:null, agency:24000, freelance:24000}, recFrom:1500000, recType:'freelance', priority:5},
+
+  {id:'coord', group:'Execution & Ops', role:'Marketing Coordinator', desc:'Scheduling, trade shows/events, CRM admin, reporting.',
+    costs:{fte:80000, fractional:null, agency:null, freelance:30000}, recFrom:3000000, recType:'fte', priority:6},
+  {id:'ops', group:'Execution & Ops', role:'Marketing Ops / Analyst', desc:'Tooling, dashboards, attribution, data hygiene.',
+    costs:{fte:100000, fractional:null, agency:null, freelance:36000}, recFrom:10000000, recType:'fte', priority:8},
+];
+
+const TYPE_LABEL={fte:'Full-time',fractional:'Fractional',agency:'Agency',freelance:'Freelance'};
+const ORDER=['fte','fractional','agency','freelance'];
+
+// industry -> stance -> marketing % of revenue (decimal)
+const PCT={
+  manufacturing:{conservative:0.04, growth:0.07, aggressive:0.095},
+  service:{conservative:0.06, growth:0.085, aggressive:0.12}
+};
+const PCT_TEXT={
+  manufacturing:'Manufacturing: 4–9.5% of revenue (industry jumped to ~9.5% in 2025).',
+  service:'Local service: 6–12% of revenue; under-$5M businesses often run higher.'
+};
+
+// Monthly cost of covering each function inside a full-service agency retainer (2026 benchmarks).
+// Agencies share senior talent across clients, so a bundled module costs far less than dedicated headcount
+// — but you get fewer dedicated hours and less control. Bundling discount applied below.
+const AGENCY_MODULE={lead:2500, mgr:1500, demand:3500, email:1200, web:1500, content:2000, design:1500, video:1500, social:1500, coord:800, ops:1000};
+const AGENCY_DISCOUNT=0.85; // consolidating scope under one agency vs. summing standalone modules
+const AGENCY_MIN_MO=2500;   // typical full-service minimum retainer
+
+let state={rev:2000000, industry:'manufacturing', stance:'growth', split:50, picks:{}};
+ROLES.forEach(r=>state.picks[r.id]='none');
+
+const $=s=>document.querySelector(s);
+const fmt=n=>'$'+Math.round(n).toLocaleString();
+const fmtK=n=> n>=1e6? '$'+(n/1e6).toFixed(n%1e6?1:0)+'M' : '$'+Math.round(n/1000)+'k';
+
+function mktBudget(){return state.rev*PCT[state.industry][state.stance];}
+function peopleBudget(){return mktBudget()*(state.split/100);}
+function teamCost(){
+  let t=0;
+  ROLES.forEach(r=>{const p=state.picks[r.id]; if(p!=='none'&&r.costs[p]!=null) t+=r.costs[p];});
+  return t;
+}
+function activeRoles(){return ROLES.filter(r=>state.picks[r.id]!=='none');}
+// Estimated annual cost for one full-service agency to cover the same active functions
+function agencyEstimate(){
+  const active=activeRoles();
+  if(!active.length) return 0;
+  let mo=0; active.forEach(r=>{ mo+=AGENCY_MODULE[r.id]||0; });
+  mo=Math.max(mo*AGENCY_DISCOUNT, AGENCY_MIN_MO);
+  return mo*12;
+}
+// rough dedicated-hours-per-month a full-service retainer delivers vs. a comparable in-house team
+function agencyHours(){ return Math.min(40+activeRoles().length*12, 160); }
+function teamHours(){
+  let h=0;
+  activeRoles().forEach(r=>{const p=state.picks[r.id];
+    h+= p==='fte'?160 : p==='fractional'?60 : p==='agency'?40 : 50; });
+  return h;
+}
+
+function buildCards(){
+  const groups={};
+  ROLES.forEach(r=>{(groups[r.group]=groups[r.group]||[]).push(r);});
+  const host=$('#groups'); host.innerHTML='';
+  Object.keys(groups).forEach(g=>{
+    const sec=document.createElement('div'); sec.className='group';
+    sec.innerHTML=`<h2>${g}</h2><div class="cards"></div>`;
+    const cards=sec.querySelector('.cards');
+    groups[g].forEach(r=>{
+      const card=document.createElement('div'); card.className='card'; card.id='card-'+r.id;
+      let opts='<button data-t="none">None</button>';
+      ORDER.forEach(t=>{ if(r.costs[t]!=null) opts+=`<button data-t="${t}">${TYPE_LABEL[t]}</button>`; });
+      card.innerHTML=`
+        <div class="role">${r.role}</div>
+        <div class="desc">${r.desc}</div>
+        <div class="opts">${opts}</div>
+        <div class="cost" id="cost-${r.id}"></div>`;
+      card.querySelectorAll('.opts button').forEach(b=>{
+        b.onclick=()=>{state.picks[r.id]=b.dataset.t; render();};
+      });
+      cards.appendChild(card);
+    });
+    host.appendChild(sec);
+  });
+}
+
+function render(){
+  // controls
+  $('#revLabel').textContent=fmt(state.rev);
+  $('#peoplePctLbl').textContent=state.split;
+  $('#pctNote').textContent=PCT_TEXT[state.industry]+' Current: '+(PCT[state.industry][state.stance]*100).toFixed(1)+'%.';
+  const mb=mktBudget(), pb=peopleBudget(), tc=teamCost();
+  $('#mktBudget').textContent=fmt(mb);
+  $('#peopleBudget').textContent=fmt(pb)+'  ('+state.split+'% of mktg)';
+  const pct= pb>0? tc/pb*100:0;
+  $('#teamCost').innerHTML=fmt(tc)+' <small id="teamCostPct">'+Math.round(pct)+'% of people budget</small>';
+  const bar=$('#bar'); bar.style.width=Math.min(pct,100)+'%';
+  bar.style.background= pct>100?'var(--bad)': pct>90?'var(--warn)':'var(--good)';
+  const pill=$('#statusPill');
+  if(pct>100){pill.textContent='Over budget';pill.style.background='var(--bad)';pill.style.color='#fff';
+    $('#remaining').textContent=fmt(tc-pb)+' over';}
+  else{pill.textContent='Within budget';pill.style.background='var(--good)';pill.style.color='#06231a';
+    $('#remaining').textContent=fmt(pb-tc)+' left';}
+
+  renderCompare();
+
+  // cards
+  ROLES.forEach(r=>{
+    const pick=state.picks[r.id];
+    const card=$('#card-'+r.id);
+    card.querySelectorAll('.opts button').forEach(b=>b.classList.toggle('sel',b.dataset.t===pick));
+    card.classList.toggle('on',pick!=='none');
+    if(pick!=='none') card.style.setProperty('--sel','var(--'+pick+')');
+    const c=$('#cost-'+r.id);
+    if(pick==='none'){
+      const cheapest=ORDER.filter(t=>r.costs[t]!=null).map(t=>r.costs[t]).sort((a,b)=>a-b)[0];
+      let rec= (state.rev>=r.recFrom)? `<div class="rec">★ Recommended at this revenue — try ${TYPE_LABEL[r.recType]}</div>`:'';
+      c.innerHTML=`<span class="yr">from ${fmt(cheapest/12)}/mo</span>${rec}`;
+    }else{
+      const yr=r.costs[pick];
+      c.innerHTML=`<div class="cost"><b>${fmt(yr/12)}</b><span class="yr">/mo · ${fmt(yr)}/yr</span></div>`;
+    }
+  });
+}
+
+function renderCompare(){
+  const host=$('#compare');
+  const active=activeRoles();
+  if(!active.length){
+    host.innerHTML='<div class="chead"><b>Build vs. Buy</b><span>Pick some roles below to compare building this team against hiring one full-service agency.</span></div>';
+    return;
+  }
+  const build=teamCost(), buy=agencyEstimate();
+  const bh=teamHours(), ah=agencyHours();
+  const cheaper = buy<build ? 'agency' : 'team';
+  const diff=Math.abs(build-buy);
+  const fteCount=active.filter(r=>state.picks[r.id]==='fte').length;
+  const verdict = cheaper==='agency'
+    ? `A full-service agency is about <b>${fmt(diff)}/yr cheaper</b> and covers all ${active.length} functions immediately — but spreads ~${ah} hrs/mo of shared senior time across your account, with less control and no institutional knowledge that stays in-house.`
+    : `Your team costs about <b>${fmt(diff)}/yr more</b> than an equivalent agency, but buys ~${bh} hrs/mo of dedicated focus, direct control, and knowledge that compounds inside the company${fteCount?` — including ${fteCount} full-time hire${fteCount>1?'s':''} who live your brand`:''}.`;
+  host.innerHTML=`
+    <div class="chead"><b>Build vs. Buy</b><span>Same ${active.length} functions, two ways to deliver them</span></div>
+    <div class="vs">
+      <div class="col build">
+        <h3>Build the team</h3><div class="who">Employees · fractional · freelance you manage</div>
+        <div class="big">${fmt(build)}<small>/yr · ${fmt(build/12)}/mo</small></div>
+        <div class="metric"><span>Dedicated hours / mo</span><span>~${bh}</span></div>
+        <div class="metric"><span>Ramp to productive</span><span>1–3 months</span></div>
+        <div class="metric"><span>You manage</span><span>${active.length} people/vendors</span></div>
+      </div>
+      <div class="mid">vs</div>
+      <div class="col buy">
+        <h3>Hire one agency</h3><div class="who">Full-service retainer, shared senior team</div>
+        <div class="big">${fmt(buy)}<small>/yr · ${fmt(buy/12)}/mo</small></div>
+        <div class="metric"><span>Dedicated hours / mo</span><span>~${ah} (shared)</span></div>
+        <div class="metric"><span>Ramp to productive</span><span>2–4 weeks</span></div>
+        <div class="metric"><span>You manage</span><span>1 account lead</span></div>
+      </div>
+    </div>
+    <div class="verdict">${verdict}</div>
+    <div class="trade">
+      <div class="h">Agency wins on</div><div class="h">In-house wins on</div>
+      <div>Speed to launch &amp; breadth of skills day one</div><div>Dedicated time &amp; deep product/brand knowledge</div>
+      <div>Lower cost at small scale; easy to scale up/down</div><div>Control, responsiveness &amp; cultural fit</div>
+      <div>Access to specialists you can't afford full-time</div><div>Knowledge & assets that stay when contracts end</div>
+    </div>`;
+}
+
+function loadRecommended(){
+  ROLES.forEach(r=>{ state.picks[r.id]= (state.rev>=r.recFrom)? r.recType:'none'; });
+  // trim to fit people budget: drop lowest-priority role first (highest priority number)
+  let guard=0;
+  while(teamCost()>peopleBudget() && guard<20){
+    let drop=null,worstPri=-1;
+    ROLES.forEach(r=>{const p=state.picks[r.id]; if(p!=='none'&&r.priority>worstPri){worstPri=r.priority;drop=r.id;}});
+    if(drop) state.picks[drop]='none'; guard++;
+  }
+  render();
+}
+
+// wire controls
+$('#rev').oninput=e=>{state.rev=+e.target.value;render();};
+$('#split').oninput=e=>{state.split=+e.target.value;render();};
+document.querySelectorAll('#industry button').forEach(b=>b.onclick=()=>{
+  state.industry=b.dataset.v;document.querySelectorAll('#industry button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render();});
+document.querySelectorAll('#stance button').forEach(b=>b.onclick=()=>{
+  state.stance=b.dataset.v;document.querySelectorAll('#stance button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render();});
+$('#recBtn').onclick=loadRecommended;
+$('#clearBtn').onclick=()=>{ROLES.forEach(r=>state.picks[r.id]='none');render();};
+
+buildCards();
+render();
+
+// Report height to a parent page when embedded in an iframe (harmless standalone)
+(function(){
+  function postHeight(){
+    try{ var h=document.documentElement.scrollHeight;
+      if(window.parent && window.parent!==window) window.parent.postMessage({spartanTeamBuilderHeight:h},'*'); }catch(e){}
+  }
+  if('ResizeObserver' in window){ new ResizeObserver(postHeight).observe(document.body); }
+  window.addEventListener('load',postHeight);
+  window.addEventListener('resize',postHeight);
+  document.addEventListener('click',function(){setTimeout(postHeight,60);});
+})();
+</script>
+</body>
+</html>
