@@ -1,8 +1,8 @@
 export const ROLES = [
-  {id:'lead', group:'Leadership & Strategy', role:'CMO', desc:'Sets strategy, owns the number, manages the team & budget. Agency Core package includes this role plus a Marketing Manager. Add a Fractional CMO (+$12k/yr) if you want a senior strategist actively in the room.',
-    costs:{fte:175000, fractional:72000, agency:21000}, recFrom:0, recType:'agency', priority:2},
-  {id:'mgr', group:'Leadership & Strategy', role:'Marketing Manager', desc:'Runs day-to-day execution, campaigns, and vendors. Included in the agency Core package — no additional cost when the CMO role is set to Agency.',
-    costs:{fte:85000, fractional:40000, agency:null}, recFrom:2000000, recType:'fte', priority:5},
+  {id:'lead', group:'Leadership & Strategy', role:'CMO', desc:'A senior strategist actively in the room — setting direction, coaching, and owning the number. As an agency add-on, this is a Fractional CMO layer (+$1k/mo) on top of the Core package.',
+    costs:{fte:175000, fractional:72000, agency:12000}, recFrom:0, recType:'agency', priority:2},
+  {id:'mgr', group:'Leadership & Strategy', role:'Marketing Manager', desc:'Runs day-to-day execution, campaigns, and vendors. The agency option is the Core package ($21k/yr) — includes a dedicated strategist and marketing manager function.',
+    costs:{fte:85000, fractional:40000, agency:21000}, recFrom:2000000, recType:'fte', priority:5},
 
   {id:'demand', group:'Demand & Digital', role:'Digital / Demand Gen', desc:'Paid media, SEO, lead gen, landing pages, analytics.',
     costs:{fte:82000, fractional:40000, agency:11400}, recFrom:1000000, recType:'agency', priority:1},
