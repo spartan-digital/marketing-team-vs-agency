@@ -1,7 +1,7 @@
 export const ROLES = [
-  {id:'lead', group:'Leadership & Strategy', role:'CMO', desc:'A senior strategist actively in the room — setting direction, coaching, and owning the number. As an agency add-on, this is a Fractional CMO layer (+$1k/mo) on top of the Core package.',
+  {id:'lead', group:'Leadership & Strategy', role:'CMO', desc:'Sets strategy, owns the number, and leads the team. Can be a full-time hire, fractional executive, or an agency add-on for a senior strategist actively in the room.',
     costs:{fte:175000, fractional:72000, agency:12000}, recFrom:0, recType:'agency', priority:2},
-  {id:'mgr', group:'Leadership & Strategy', role:'Marketing Manager', desc:'Runs day-to-day execution, campaigns, and vendors. The agency option is the Core package ($21k/yr) — includes a dedicated strategist and marketing manager function.',
+  {id:'mgr', group:'Leadership & Strategy', role:'Marketing Manager', desc:'Runs day-to-day execution, campaigns, and vendors.',
     costs:{fte:85000, fractional:40000, agency:21000}, recFrom:2000000, recType:'fte', priority:5},
 
   {id:'demand', group:'Demand & Digital', role:'Digital / Demand Gen', desc:'Paid media, SEO, lead gen, landing pages, analytics.',
@@ -22,8 +22,8 @@ export const ROLES = [
 
   {id:'coord', group:'Execution & Ops', role:'Marketing Coordinator', desc:'Scheduling, trade shows/events, CRM admin, reporting. Included in the agency Core package — no additional cost when the CMO role is set to Agency.',
     costs:{fte:55000, fractional:27000, agency:null}, recFrom:3000000, recType:'fte', priority:6},
-  {id:'ops', group:'Execution & Ops', role:'Marketing Ops / Analyst', desc:'Tooling, dashboards, attribution, data hygiene.',
-    costs:{fte:90000, fractional:45000, agency:9000}, recFrom:10000000, recType:'fte', priority:8},
+  {id:'ops', group:'Execution & Ops', role:'Marketing Ops / Analyst', desc:'Tooling, dashboards, attribution, data hygiene. Included in the agency Core package at no additional cost.',
+    costs:{fte:90000, fractional:45000, agency:0}, recFrom:10000000, recType:'fte', priority:8},
 ];
 
 export const TYPE_LABEL: Record<string, string> = {fte:'Full-time', fractional:'Fractional', agency:'Agency'};

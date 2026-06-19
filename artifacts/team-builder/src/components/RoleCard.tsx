@@ -64,9 +64,13 @@ export function RoleCard({
       
       <div className="text-[13px]">
         {isActive ? (
-          <>
-            <b className="text-[16px]">{formatCurrency(role.costs[pick])}</b> <span className="text-muted-foreground text-[12px]">/yr</span>
-          </>
+          role.costs[pick] === 0 ? (
+            <b className="text-[16px] text-[var(--color-good)]">Included in Core</b>
+          ) : (
+            <>
+              <b className="text-[16px]">{formatCurrency(role.costs[pick])}</b> <span className="text-muted-foreground text-[12px]">/yr</span>
+            </>
+          )
         ) : (
           <b className="text-[16px]">$0</b>
         )}
