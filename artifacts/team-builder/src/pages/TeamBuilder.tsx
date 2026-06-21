@@ -51,23 +51,25 @@ export default function TeamBuilder() {
       <div className="px-[28px] py-[20px] bg-card border-b border-border">
         <div className="grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-x-[28px] gap-y-[18px] mb-[16px]">
           <div className="m-0">
-            <label className="block text-[12px] uppercase tracking-[0.6px] text-muted-foreground mb-[8px]">Annual revenue</label>
-            <div className="text-[24px] font-semibold my-[2px] mb-[6px]">{formatCurrency(state.rev)}</div>
-            <input 
-              type="range" 
-              className="w-full accent-accent" 
-              min="250000" 
-              max="50000000" 
-              step="250000" 
-              value={state.rev} 
+            <label htmlFor="rev-input" className="block text-[12px] uppercase tracking-[0.6px] text-muted-foreground mb-[8px]">Annual revenue</label>
+            <div className="text-[24px] font-semibold my-[2px] mb-[6px]" aria-live="polite">{formatCurrency(state.rev)}</div>
+            <input
+              id="rev-input"
+              type="range"
+              className="w-full accent-accent"
+              min="250000"
+              max="50000000"
+              step="250000"
+              value={state.rev}
+              aria-valuetext={formatCurrency(state.rev)}
               onChange={e => setState(s => ({ ...s, rev: Number(e.target.value) }))}
               data-testid="input-rev"
             />
           </div>
-          
+
           <div className="m-0">
             <label className="block text-[12px] uppercase tracking-[0.6px] text-muted-foreground mb-[8px]">Business type</label>
-            <SegmentedControl 
+            <SegmentedControl
               options={[
                 { label: 'Manufacturing', value: 'manufacturing' },
                 { label: 'Local service', value: 'service' }
@@ -75,12 +77,13 @@ export default function TeamBuilder() {
               value={state.industry}
               onChange={v => setState(s => ({ ...s, industry: v }))}
               testIdPrefix="btn-industry"
+              groupLabel="Business type"
             />
           </div>
 
           <div className="m-0">
             <label className="block text-[12px] uppercase tracking-[0.6px] text-muted-foreground mb-[8px]">Growth stance</label>
-            <SegmentedControl 
+            <SegmentedControl
               options={[
                 { label: 'Conservative', value: 'conservative' },
                 { label: 'Growth', value: 'growth' },
@@ -89,15 +92,19 @@ export default function TeamBuilder() {
               value={state.stance}
               onChange={v => setState(s => ({ ...s, stance: v }))}
               testIdPrefix="btn-stance"
+              groupLabel="Growth stance"
             />
-            <div className="grid grid-cols-3 gap-[4px] mt-[6px]">
-              {(['conservative','growth','aggressive'] as const).map(s => {
+            <div className="grid grid-cols-3 gap-[4px] mt-[6px]" role="group" aria-label="Budget by stance">
+              {(['conservative', 'growth', 'aggressive'] as const).map(s => {
                 const pct = PCT[state.industry][s];
                 const budget = state.rev * pct;
                 const active = state.stance === s;
                 return (
                   <button
                     key={s}
+                    type="button"
+                    aria-pressed={active}
+                    aria-label={`${s} stance: ${(pct * 100).toFixed(1)}%, ${formatCurrency(budget)}/yr`}
                     onClick={() => setState(st => ({ ...st, stance: s }))}
                     className={`rounded-[6px] py-[5px] px-[6px] text-left cursor-pointer border transition-colors ${active ? 'border-accent bg-accent/10' : 'border-border bg-secondary hover:border-muted-foreground'}`}
                   >
@@ -114,16 +121,18 @@ export default function TeamBuilder() {
           </div>
 
           <div className="m-0">
-            <label className="block text-[12px] uppercase tracking-[0.6px] text-muted-foreground mb-[8px]">
-              People vs. programs split — <span>{state.split}</span>% people
+            <label htmlFor="split-input" className="block text-[12px] uppercase tracking-[0.6px] text-muted-foreground mb-[8px]">
+              People vs. programs split — <span aria-live="polite">{state.split}</span>% people
             </label>
             <input
+              id="split-input"
               type="range"
               className="w-full accent-accent"
               min="30"
               max="75"
               step="5"
               value={state.split}
+              aria-valuetext={`${state.split}% toward people`}
               onChange={e => setState(s => ({ ...s, split: Number(e.target.value) }))}
               data-testid="input-split"
             />

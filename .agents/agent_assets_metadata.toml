@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "yin5QUy1bxThNqXzeQL7z"
+uri = "file://artifacts/team-builder/public/og-image.png"
+type = "image"
+title = "Social share image (og:image)"

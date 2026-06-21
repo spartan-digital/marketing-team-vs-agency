@@ -9,10 +9,10 @@ interface BudgetBarProps {
 export function BudgetBar({ teamCost, peopleBudget }: BudgetBarProps) {
   const pct = peopleBudget > 0 ? (teamCost / peopleBudget) * 100 : 0;
   const clampedPct = Math.min(Math.max(pct, 0), 100);
-  
+  const diff = peopleBudget - teamCost;
+
   let statusColor = "var(--color-good)";
   let statusText = "Under budget";
-  
   if (pct > 100) {
     statusColor = "var(--color-bad)";
     statusText = "Over budget";
@@ -21,29 +21,41 @@ export function BudgetBar({ teamCost, peopleBudget }: BudgetBarProps) {
     statusText = "Near budget limit";
   }
 
-  const diff = peopleBudget - teamCost;
-
   return (
     <>
-      <div className="text-xs text-muted-foreground">Team cost / People budget</div>
-      <div className="text-[20px] font-semibold mt-0.5" id="teamCost">
-        {formatCurrency(teamCost)} <small className="text-xs text-muted-foreground font-normal ml-1">{pct.toFixed(1)}%</small>
+      <div className="text-xs text-muted-foreground" id="budget-bar-label">
+        Team cost / People budget
       </div>
-      <div className="h-[14px] rounded-lg bg-secondary overflow-hidden mt-2 border border-border relative">
-        <i
-          className="block h-full transition-all duration-250 ease-in-out"
+      <div className="text-[20px] font-semibold mt-0.5" aria-labelledby="budget-bar-label">
+        {formatCurrency(teamCost)}{" "}
+        <small className="text-xs text-muted-foreground font-normal ml-1">
+          {pct.toFixed(1)}%
+        </small>
+      </div>
+      <div
+        role="progressbar"
+        aria-valuenow={Math.round(clampedPct)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`Team cost is ${pct.toFixed(1)}% of the people budget`}
+        className="h-[14px] rounded-lg bg-secondary overflow-hidden mt-2 border border-border"
+      >
+        <div
+          className="h-full transition-all duration-250 ease-in-out"
           style={{ width: `${clampedPct}%`, backgroundColor: statusColor }}
-        ></i>
+        />
       </div>
       <div className="flex justify-between text-[13px] mt-2">
-        <span 
+        <span
           className="inline-block px-2 py-[2px] rounded-[20px] text-[11px] font-semibold"
           style={{ color: statusColor, backgroundColor: `${statusColor}1A` }}
         >
           {statusText}
         </span>
         <span className={diff < 0 ? "text-[var(--color-bad)]" : "text-muted-foreground"}>
-          {diff >= 0 ? `${formatCurrency(diff)} remaining` : `${formatCurrency(Math.abs(diff))} over`}
+          {diff >= 0
+            ? `${formatCurrency(diff)} remaining`
+            : `${formatCurrency(Math.abs(diff))} over`}
         </span>
       </div>
     </>
