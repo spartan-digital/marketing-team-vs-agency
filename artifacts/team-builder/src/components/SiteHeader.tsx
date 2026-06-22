@@ -16,7 +16,7 @@ export function SiteHeader() {
           <img
             src="/spartan-logo.png"
             alt="Spartan Marketing"
-            className="h-14 w-auto"
+            className="h-20 w-auto"
           />
         </a>
 

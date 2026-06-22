@@ -56,7 +56,7 @@ export function SiteFooter() {
               rel="noopener noreferrer"
               aria-label="Spartan Marketing home"
             >
-              <img src="/spartan-logo.png" alt="Spartan Marketing" className="h-14 w-auto" />
+              <img src="/spartan-logo.png" alt="Spartan Marketing" className="h-20 w-auto" />
             </a>
             <p className="text-[13px] text-muted-foreground leading-relaxed max-w-[220px]">
               A marketing agency that uses proven methods & modern tools to produce measurable results.
