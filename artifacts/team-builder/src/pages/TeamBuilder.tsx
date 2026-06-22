@@ -47,12 +47,15 @@ export default function TeamBuilder() {
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <SiteHeader />
 
-      <div className="px-[28px] py-[22px] border-b border-border" style={{ background: 'linear-gradient(180deg,#161a22,#0f1115)' }}>
-        <h1 className="m-0 text-[20px] tracking-[0.2px]">Marketing Team Cost Calculator</h1>
-        <div className="text-muted-foreground text-[13px] mt-1">Compare what it costs to build your marketing team in-house, hire fractional, or partner with Spartan — side by side.</div>
+      <div className="border-b border-border py-[22px]" style={{ background: 'linear-gradient(180deg,#161a22,#0f1115)' }}>
+        <div className="max-w-[1400px] mx-auto px-8">
+          <h1 className="m-0 text-[20px] tracking-[0.2px]">Marketing Team Cost Calculator</h1>
+          <div className="text-muted-foreground text-[13px] mt-1">Compare what it costs to build your marketing team in-house, hire fractional, or partner with Spartan — side by side.</div>
+        </div>
       </div>
 
-      <div className="px-[28px] py-[20px] bg-card border-b border-border">
+      <div className="py-[20px] bg-card border-b border-border">
+        <div className="max-w-[1400px] mx-auto px-8">
         <div className="grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-x-[28px] gap-y-[18px] mb-[16px]">
           <div className="m-0">
             <label htmlFor="rev-input" className="block text-[12px] uppercase tracking-[0.6px] text-muted-foreground mb-[8px]">Annual revenue</label>
@@ -186,9 +189,11 @@ export default function TeamBuilder() {
             </button>
           </div>
         </div>
+        </div>{/* end max-w wrapper */}
       </div>
 
-      <main className="p-[22px] px-[28px]">
+      <main className="py-[22px]">
+        <div className="max-w-[1400px] mx-auto px-8">
         <div className="flex gap-[14px] flex-wrap m-0 mb-[18px] text-[12px] text-muted-foreground">
           <span className="flex items-center"><i className="inline-block w-[11px] h-[11px] rounded-[3px] mr-[5px] align-[-1px]" style={{ background: 'var(--color-fte)' }}></i>Full-time hire</span>
           <span className="flex items-center"><i className="inline-block w-[11px] h-[11px] rounded-[3px] mr-[5px] align-[-1px]" style={{ background: 'var(--color-fractional)' }}></i>Fractional</span>
@@ -222,6 +227,7 @@ export default function TeamBuilder() {
         <div className="text-[11px] text-muted-foreground mt-[14px] leading-[1.5]">
           Cost figures are 2026 U.S. benchmarks shown as fully-considered annual cost (FTE salaries are loaded ~1.35× base for taxes/benefits). They are editable starting points — real rates vary by region, seniority, and scope.
         </div>
+        </div>{/* end max-w wrapper */}
       </main>
 
       <SiteFooter />
