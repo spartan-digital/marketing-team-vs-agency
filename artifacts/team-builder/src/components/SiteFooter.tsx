@@ -45,7 +45,7 @@ export function SiteFooter() {
       className="border-t border-border mt-0"
       style={{ background: "linear-gradient(180deg,#161a22,#0f1115)" }}
     >
-      <div className="max-w-[1200px] mx-auto px-6 py-12">
+      <div className="max-w-[1400px] mx-auto px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
 
           {/* Col 1 — Brand */}
@@ -56,7 +56,7 @@ export function SiteFooter() {
               rel="noopener noreferrer"
               aria-label="Spartan Marketing home"
             >
-              <img src="/spartan-logo.png" alt="Spartan Marketing" className="h-9 w-auto" />
+              <img src="/spartan-logo.png" alt="Spartan Marketing" className="h-14 w-auto" />
             </a>
             <p className="text-[13px] text-muted-foreground leading-relaxed max-w-[220px]">
               A marketing agency that uses proven methods & modern tools to produce measurable results.
