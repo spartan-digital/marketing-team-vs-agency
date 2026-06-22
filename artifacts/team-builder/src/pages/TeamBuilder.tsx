@@ -3,7 +3,9 @@ import { SegmentedControl } from '@/components/SegmentedControl';
 import { BudgetBar } from '@/components/BudgetBar';
 import { ComparePanel } from '@/components/ComparePanel';
 import { RoleCard } from '@/components/RoleCard';
-import { 
+import { SiteHeader } from '@/components/SiteHeader';
+import { SiteFooter } from '@/components/SiteFooter';
+import {
   ROLES, PCT, PCT_TEXT, mktBudget, peopleBudget, teamCost, loadRecommended, State, formatCurrency
 } from '@/lib/team-builder-logic';
 
@@ -42,11 +44,13 @@ export default function TeamBuilder() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground pb-12">
-      <header className="px-[28px] py-[22px] border-b border-border" style={{ background: 'linear-gradient(180deg,#161a22,#0f1115)' }}>
-        <h1 className="m-0 text-[20px] tracking-[0.2px]">Marketing Team Builder</h1>
-        <div className="text-muted-foreground text-[13px] mt-1">Size a marketing team against a revenue-based budget — built for manufacturing & local service businesses.</div>
-      </header>
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <SiteHeader />
+
+      <div className="px-[28px] py-[22px] border-b border-border" style={{ background: 'linear-gradient(180deg,#161a22,#0f1115)' }}>
+        <h1 className="m-0 text-[20px] tracking-[0.2px]">Marketing Team Cost Calculator</h1>
+        <div className="text-muted-foreground text-[13px] mt-1">Compare what it costs to build your marketing team in-house, hire fractional, or partner with Spartan — side by side.</div>
+      </div>
 
       <div className="px-[28px] py-[20px] bg-card border-b border-border">
         <div className="grid grid-cols-[repeat(auto-fit,minmax(210px,1fr))] gap-x-[28px] gap-y-[18px] mb-[16px]">
@@ -219,6 +223,8 @@ export default function TeamBuilder() {
           Cost figures are 2026 U.S. benchmarks shown as fully-considered annual cost (FTE salaries are loaded ~1.35× base for taxes/benefits). They are editable starting points — real rates vary by region, seniority, and scope.
         </div>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }
